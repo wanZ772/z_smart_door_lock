@@ -1,0 +1,108 @@
+<Controller>:
+	ScreenManager:
+		id: screen_manager
+		Screen:
+			name: 'main_screen'
+			MDGridLayout:
+				cols: 1
+				
+				MDLabel:
+					text: "No connection"
+					id: connection_name
+					halign: 'center'
+				Button:
+					text: "Status:"
+					id: status_id
+					background_normal: ''
+					background_color: rgba('#4287f5')
+					size_hint: (1,.3)
+				Widget:
+				MDGridLayout:
+					cols: 1
+					Button:
+						text: "Open Door"
+						on_release: 
+							root.open_door()
+					Button:
+						text: "Close Door"
+						on_release: root.close_door()
+					Button:
+						text: "Door Settings"
+						on_release:
+							screen_manager.current = 'door_settings'
+							screen_manager.transition.direction = 'up'
+		Screen:
+			name: 'door_settings'
+			MDGridLayout:
+				cols: 1
+				MDLabel:
+					text: "Door Settings"
+					halign: 'center'
+				Widget:
+				MDGridLayout:
+					cols: 2
+					Button:
+						text: "Clear Doors"
+						on_release:
+							root.remove_doors()
+					Button:
+						text: "Set Door"
+						on_release:
+							screen_manager.current = 'set_to_door'
+							screen_manager.transition.direction = 'left'
+					Button:
+						text: "connect to door"
+						on_release:
+							root.connect()
+							root.recheck_connection()
+							screen_manager.current = 'main_screen'
+							screen_manager.transition.direction = 'down'
+					Button:
+						text: "Disconnect to door"
+					MDLabel:
+						text: " "
+				MDGridLayout:
+					cols: 1
+					Button:
+						text: "Main Screen"
+						background_normal: ''
+						background_color: rgba('#4287f5')
+						size_hint: (1,.1)
+						on_release:
+							screen_manager.current = 'main_screen'
+							screen_manager.transition.direction = 'down'
+		Screen:
+			name: 'set_to_door'
+			MDGridLayout:
+				cols: 1
+				MDGridLayout:
+					cols: 1
+					TextInput:
+						hint_text: "IP Address"
+						halign: 'center'
+						id: new_door
+					Button:
+						text: "Set"
+						size_hint: (1,.3)
+						on_release:
+							root.write_door()
+							screen_manager.current = 'door_settings'
+							screen_manager.transition.direction = 'right'
+				MDGridLayout:
+					cols: 2
+					Button:
+						text: "back"
+						background_normal:  ''
+						background_color: (1,0,0,1)
+						on_release:
+							screen_manager.current = 'door_settings'
+							screen_manager.transition.direction = 'right'
+					Button:
+						text: "Main Screen"
+						size_hint: (1,.1)
+						background_normal: ''
+						background_color: rgba('#4287f5')
+						
+						on_release:
+							screen_manager.current = 'main_screen'
+							screen_manager.transition.direction = 'down'
